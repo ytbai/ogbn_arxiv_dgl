@@ -5,14 +5,15 @@ from dgl.nn.pytorch.conv import GraphConv
 
 
 class GCNLayer(nn.Module):
-  def __init__(self, d_model):
+  def __init__(self, d_model, add_linear):
     super().__init__()
     self.d_model = d_model
-    
+    self.add_linear = add_linear
     self.drop_p = 0.5
 
+    if add_linear:
+      self.linear = nn.Linear(d_model, d_model)
     
-    self.linear = nn.Linear(d_model, d_model)
     self.gcn = GraphConv(d_model, d_model)
 
 
@@ -26,20 +27,25 @@ class GCNLayer(nn.Module):
   def forward(self, graph, input):
     output = self.gcn(graph, input)
 
-    output += input + self.linear(input)
+    output += input
+
+    if self.add_linear:
+      output += self.linear(input)
+
     output = self.top(output)
 
     return output
 
 
 class GCNHead(nn.Module):
-  def __init__(self, d_model, n_layer):
+  def __init__(self, d_model, n_layer, add_linear):
     super().__init__()
     self.d_model = d_model
     self.n_layer = n_layer
+    self.add_linear = add_linear
 
     self.layer_list = nn.ModuleList([
-                                 GCNLayer(d_model) for _ in range(n_layer)
+                                 GCNLayer(d_model, add_linear) for _ in range(n_layer)
     ])
 
   def forward(self, graph, input):
@@ -52,13 +58,14 @@ class GCNHead(nn.Module):
 
 
 class GCN(nn.Module):
-  def __init__(self, d_input, n_class, d_model, n_layer, n_head):
+  def __init__(self, d_input, n_class, d_model, n_layer, n_head, add_linear=True):
     super().__init__()
     self.d_input = d_input
     self.d_model = d_model
     self.n_class = n_class
     self.n_layer = n_layer
     self.n_head = n_head
+    self.add_linear = add_linear
     self.input_drop_p = 0.1
 
 
@@ -66,7 +73,7 @@ class GCN(nn.Module):
     self.input_dropout = nn.Dropout(self.input_drop_p)
   
     self.head_list = nn.ModuleList([
-                                     GCNHead(d_model, n_layer) for _ in range(n_head)
+                                     GCNHead(d_model, n_layer, add_linear) for _ in range(n_head)
                                      ])
     self.top = nn.Sequential(
         nn.Linear(d_model, n_class),
