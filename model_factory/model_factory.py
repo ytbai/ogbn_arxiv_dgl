@@ -40,7 +40,7 @@ class ModelFactory():
 
   def set_lr(self, lr):
     for param in self.optimizer.param_groups:
-      self.optimizer['lr'] = lr
+      param["lr"] = lr
 
   def make_models_dir(self):
     if not os.path.exists(self.models_dir):
