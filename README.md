@@ -1,6 +1,6 @@
 # Applying Neural Networks to Graphs
 
-This repository contains all the code used for a project on applying graph neural networks to making predictions for the [ogbn-arxiv dataset](https://ogb.stanford.edu/) which is explained in [this paper](https://arxiv.org/abs/2005.00687). Details of the methods and results are discussed in a (blog post)[https://ytbai.net/2021/03/02/applying-neural-networks-to-graphs/] I wrote. All the results presented in the post can be reproduced simply by running the appropriate Jupyter notebooks.
+This repository contains all the code used for a project on applying graph neural networks to making predictions for the [ogbn-arxiv dataset](https://ogb.stanford.edu/) which is explained in [this paper](https://arxiv.org/abs/2005.00687). Details of the methods and results are discussed in a [blog post](https://ytbai.net/2021/03/02/applying-neural-networks-to-graphs/) I wrote. All the results presented in the post can be reproduced simply by running the appropriate Jupyter notebooks.
 
 ## Quick Guide
 
