@@ -1,7 +1,7 @@
 import torch
 from ogb.nodeproppred import Evaluator
 
-def evaluate(model_factory, data_factory, dataset_name, split_name, loss_name, metric):
+def evaluate(model_factory, data_factory, dataset_name, split_name, metric):
   evaluator = Evaluator(dataset_name)
   model = model_factory.model
 
@@ -15,6 +15,5 @@ def evaluate(model_factory, data_factory, dataset_name, split_name, loss_name, m
   y_pred = torch.argmax(logit_pred, dim=1, keepdim=True)
   
   score = evaluator.eval({"y_true":y_true[pred_idx], "y_pred":y_pred[pred_idx]})[metric]
-  model_factory.append_loss(loss_name, score)
 
   return score
