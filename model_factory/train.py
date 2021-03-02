@@ -14,12 +14,18 @@ def train(model_factory, data_factory, criterion):
   graph = data_factory.graph
   y_true = data_factory.labels
 
-  pred_idx, x_masked = data_factory.make_mask("train")
+  if model.masked:
+    pred_idx, x_masked = data_factory.make_mask("train")
 
-  logit_pred = model(graph, x_masked)
+    logit_pred = model(graph, x_masked)
+
+  else:
+    pred_idx = data_factory.get_idx_split("train")
+    x = graph.ndata["x"]
+    logit_pred = model(graph, x)
+
   loss = criterion(logit_pred[pred_idx], y_true[pred_idx])
   loss.backward()
-
   optimizer.step()
 
   if model_factory.schedule():
