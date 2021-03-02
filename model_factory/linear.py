@@ -11,6 +11,7 @@ class LinearModel(nn.Module):
     super().__init__()
     self.d_input = d_input
     self.d_output = d_output
+    self.masked = False
 
     self.linear = nn.Linear(d_input, d_output)
 
