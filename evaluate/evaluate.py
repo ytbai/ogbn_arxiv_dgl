@@ -22,3 +22,18 @@ def evaluate(model_factory, data_factory, dataset_name, split_name, metric="acc"
   score = evaluator.eval({"y_true":y_true[pred_idx], "y_pred":y_pred[pred_idx]})[metric]
 
   return score
+
+
+def evaluate_static(data_factory, dataset_name, split_name, metric="acc"):
+  evaluator = Evaluator(dataset_name)
+
+  y_true = data_factory.labels
+
+  pred_idx = data_factory.get_idx_split(split_name)
+  train_idx = data_factory.get_idx_split("train")
+
+  y_train_mode, _ = torch.mode(y_true[train_idx], dim=0)
+  y_pred = y_train_mode*torch.ones_like(pred_idx).unsqueeze(-1).to(data_factory.device)
+  score = evaluator.eval({"y_true":y_true[pred_idx], "y_pred":y_pred})[metric]
+
+  return score
