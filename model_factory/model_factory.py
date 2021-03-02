@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 import pickle
 
 class ModelFactory():
-  def __init__(self, model, models_dir, name = None):
+  def __init__(self, model, models_dir, name=None):
     self.model = model
     self.models_dir = models_dir
     self.model_dir = os.path.join(self.models_dir, name)
@@ -80,41 +80,33 @@ class ModelFactory():
 
   def save_model(self):
     torch.save(self.model.state_dict(), self.model_state_dict_path)
-    print("model saved")
   
   def load_model(self):
     self.model.load_state_dict(torch.load(self.model_state_dict_path))
-    print("model loaded")
 
   def save_optimizer(self):
     torch.save(self.optimizer.state_dict(), self.optimizer_state_dict_path)
-    print("optimizer saved")
   
   def load_optimizer(self):
     self.optimizer.load_state_dict(torch.load(self.optimizer_state_dict_path))
-    print("optimizer loaded")
 
   def save_scheduler(self):
     if self.schedule():
       torch.save(self.scheduler.state_dict(), self.scheduler_state_dict_path)
-      print("scheduler saved")
   
   def load_scheduler(self):
     if self.schedule():
       self.scheduler.load_state_dict(torch.load(self.scheduler_state_dict_path))
-      print("scheduler loaded")
 
   def save_loss_dict(self):
     f = open(self.loss_dict_path, "wb")
     pickle.dump(self.loss_dict, f)
     f.close()
-    print("loss_dict saved")
     
   def load_loss_dict(self):
     f = open(self.loss_dict_path, "rb")
     self.loss_dict = pickle.load(f)
     f.close()
-    print("loss_dict loaded")
 
   def add_loss_name(self, loss_name, mode="min"):
     self.loss_dict[loss_name] = []
