@@ -1,7 +1,7 @@
 import torch
 from ogb.nodeproppred import Evaluator
 
-def evaluate(model_factory, data_factory, dataset_name, split_name, metric):
+def evaluate(model_factory, data_factory, dataset_name, split_name, metric="acc"):
   evaluator = Evaluator(dataset_name)
   model = model_factory.model
 
