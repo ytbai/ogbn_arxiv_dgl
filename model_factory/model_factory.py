@@ -69,11 +69,14 @@ class ModelFactory():
     self.save_optimizer()
     self.save_scheduler()
   
-  def load(self):
-    self.load_model()
-    self.load_loss_dict()
-    self.load_optimizer()
-    self.load_scheduler()
+  def load(self, model_only=False):
+    if model_only:
+      self.load_model()
+    else:
+      self.load_model()
+      self.load_loss_dict()
+      self.load_optimizer()
+      self.load_scheduler()
 
   def save_model(self):
     torch.save(self.model.state_dict(), self.model_state_dict_path)
