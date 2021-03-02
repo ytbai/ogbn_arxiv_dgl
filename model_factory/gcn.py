@@ -58,7 +58,7 @@ class GCNHead(nn.Module):
 
 
 class GCN(nn.Module):
-  def __init__(self, d_input, n_class, d_model, n_layer, n_head, add_linear=True):
+  def __init__(self, d_input, n_class, d_model, n_layer, n_head, masked, add_linear=True):
     super().__init__()
     self.d_input = d_input
     self.d_model = d_model
@@ -66,6 +66,7 @@ class GCN(nn.Module):
     self.n_layer = n_layer
     self.n_head = n_head
     self.add_linear = add_linear
+    self.masked = masked
     self.input_drop_p = 0.1
 
 

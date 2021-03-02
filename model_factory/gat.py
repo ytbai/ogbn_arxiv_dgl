@@ -108,6 +108,7 @@ class GAT(nn.Module):
     d_head,
     n_layer,
     n_head,
+    masked,
   ):
     assert n_layer >= 3
 
@@ -117,6 +118,7 @@ class GAT(nn.Module):
     self.d_head = d_head
     self.n_layer = n_layer
     self.n_head = n_head
+    self.masked = masked
     self.input_drop_rate = 0.1
 
     self.input_drop = nn.Dropout(self.input_drop_rate)
